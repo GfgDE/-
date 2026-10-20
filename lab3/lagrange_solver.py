@@ -1,4 +1,3 @@
-
 import json
 import sys
 
@@ -71,9 +70,16 @@ def solve_lagrange(f_str, h_str):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        sys.exit('использование: python3 lagrange_solver.py "<f>" "<h>"')
-    res = solve_lagrange(sys.argv[1], sys.argv[2])
+    if len(sys.argv) == 3:
+        f_in, h_in = sys.argv[1], sys.argv[2]
+    else:
+        print("Метод множителей Лагранжа. Переменные: x, y. Ограничение вводить как h(x, y) = 0.")
+        print("Пример: f = x**2 + y**2, h = x + y - 6")
+        f_in = input("f(x, y) = ").strip()
+        h_in = input("h(x, y) = ").strip()
+        if not f_in or not h_in:
+            sys.exit("нужны обе формулы")
+    res = solve_lagrange(f_in, h_in)
     print(res["text"])
     with open("solver_result.json", "w", encoding="utf-8") as fh:
         json.dump({k: v for k, v in res.items() if k != "text"}, fh, ensure_ascii=False, indent=1)
